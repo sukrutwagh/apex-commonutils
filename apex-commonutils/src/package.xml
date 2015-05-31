@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>COM_BaseService</members>
+        <members>COM_BatchExample</members>
+        <members>COM_BatchQueue</members>
+        <members>COM_BatchQueueTest</members>
+        <members>COM_BatchQueueable</members>
+        <members>COM_Constants</members>
+        <members>COM_EmailUtils</members>
+        <members>COM_ErrorCode</members>
+        <members>COM_Exception</members>
+        <members>COM_Factory</members>
+        <members>COM_Logger</members>
+        <members>COM_LoggerTest</members>
+        <members>COM_SObjectUtils</members>
+        <members>COM_SObjectUtilsTest</members>
+        <members>COM_Service</members>
+        <members>COM_ServiceResult</members>
+        <members>COM_Utils</members>
+        <members>COM_UtilsTest</members>
+        <members>OasisOpenOrgWssSecuritySecext</members>
+        <members>OasisSecurity</members>
+        <members>SmartFactory</members>
+        <members>SmartFactory_Test</members>
+        <members>UnsupportedObjectTypeException</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>StaticResource</name>
+    </types>
+    <version>31.0</version>
+</Package>
