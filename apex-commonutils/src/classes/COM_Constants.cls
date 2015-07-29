@@ -7,6 +7,8 @@
 
 public with sharing class COM_Constants {
 	
+    public static final String COMMA = ',';
+    
 	/**
 	 * @description Sfdc saves datetime fields in UTC with ISO date time format
 	*/

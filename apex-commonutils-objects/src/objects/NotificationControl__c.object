@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <customSettingsVisibility>Public</customSettingsVisibility>
+    <description>Control to turn on/off email notifications for object changes.
+Note: Use Object API name for new instance. Ex:Case, Account, Custom__c. Ensure there are no duplicate instances with same Object API name. Ex: Case, Case</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>AdditionalToAddress__c</fullName>
+        <description>Comma separated email addresses. Ex: a@b.com,x@y.com</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Comma separated email addresses. Ex: a@b.com,x@y.com</inlineHelpText>
+        <label>AdditionalToAddress</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CcAddressFields__c</fullName>
+        <description>Comma separated list of field API name that holds email addresses. 
+Ex: ContactEmail,SuppliedEmail,TeamEmail__c</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Comma separated list of field API name that holds email addresses. 
+Ex: ContactEmail,SuppliedEmail,TeamEmail__c</inlineHelpText>
+        <label>CcAddressFields</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Enable__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Enable/Disable notification</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Check to enable notifications</inlineHelpText>
+        <label>Enable</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>NotifyOnFields__c</fullName>
+        <description>Comma separated list of field API name to be inspected for changes. Include only important fields in this list
+Ex: Owner,Comments,Priority,Status</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Comma separated list of field API name to be inspected for changes. Include only important fields in this list
+Ex: Owner,Comments,Priority,Status</inlineHelpText>
+        <label>NotifyOnFields</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ToAddressFields__c</fullName>
+        <description>Comma separated list of field API name that holds email addresses. 
+Ex: ContactEmail,SuppliedEmail,TeamEmail__c</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Comma separated list of field API name that holds email addresses. 
+Ex: ContactEmail,SuppliedEmail,TeamEmail__c</inlineHelpText>
+        <label>ToAddressFields</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>NotificationControl</label>
+</CustomObject>

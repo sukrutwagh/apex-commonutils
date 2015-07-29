@@ -26,10 +26,7 @@ public class COM_EmailUtils {
 		String ToAddress {get;set;}
 		String BccAddress {get;set;}
 		String Body {get;set;}
-		/*public EmailMessageWrapper(String fromAddr, String toAddr, Id toAddrId, String sub, Map<String, String> mapSubjectParams, Map<String, String> mapBodyParams) {
-       	 	this(fromAddr, toAddr, toAddrId, null, sub, mapSubjectParams, null, mapBodyParams );
-       	 	
-    	}*/
+		
     	
     	
 	    public EmailMessageWrapper(String fromAddr, String toAddr, Id toAddrId, String bccAddr, String sub, Map<String, String>  mapSubjectParams, String body, Map<String, String> mapBodyParams) {

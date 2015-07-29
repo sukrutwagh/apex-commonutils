@@ -1,7 +1,7 @@
 eclipse.preferences.version=1
 endpointApiVersion=31.0
-endpointEnvironment=Sandbox
-endpointServer=test.salesforce.com
+endpointEnvironment=Other (Specify)
+endpointServer=login.salesforce.com
 httpsProtocol=true
 ideVersion=31.0
 keependpoint=false
@@ -11,4 +11,4 @@ packageName=unpackaged
 preferToolingDeployment=true
 projectIdentifier=IDE-1370166437550799198
 readTimeout=600
-username=sukrut.w@currenciesdirect.com.project1
+username=sukrutwaghsf@gmail.com

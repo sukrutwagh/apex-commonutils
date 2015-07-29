@@ -13,6 +13,8 @@
         <members>COM_Factory</members>
         <members>COM_Logger</members>
         <members>COM_LoggerTest</members>
+        <members>COM_NotificationUtils</members>
+        <members>COM_NotificationUtilsTest</members>
         <members>COM_SObjectUtils</members>
         <members>COM_SObjectUtilsTest</members>
         <members>COM_Service</members>

@@ -65,5 +65,58 @@ private class COM_UtilsTest {
     	}
     }
     
+    static testMethod void test_getObjUrl() {
+        System.assert(COM_Utils.isEmpty(COM_Utils.getObjUrl(null)));
+        System.assert(COM_Utils.isEmpty(COM_Utils.getObjUrl(SmartFactory.createSObject('Lead'))));
+        Account acc = new Account(Name='Acme Corp', AccountNumber='1', Sic='1');
+        insert acc;
+        System.assert(COM_Utils.isNotEmpty(COM_Utils.getObjUrl(acc)));
+    }
+    
+    static testMethod void test_getChangedFields() {
+    	System.assert(COM_Utils.isEmpty(COM_Utils.getChangedFields(null,null,null)));
+    	
+    	List<SObject> old = new List<SObject>(); 
+    	List<SObject> newz = new List<SObject>();
+    	System.assert(COM_Utils.isEmpty(COM_Utils.getChangedFields(old,newz,null)));
+        
+        Account oldacc1 = new Account(Name='Acme Corp', AccountNumber='1', Sic='1');
+        Account oldacc2 = new Account(Name='Acme Corp', AccountNumber='2', Sic='2');
+        Account oldacc3 = new Account(Name='Acme Corp', AccountNumber='3', Sic='3');
+        Account oldacc4 = new Account(Name='Acme Corp', AccountNumber='4', Sic='4');
+        
+        Account newacc1 = new Account(Name='Acme Corp', AccountNumber='1', Sic='11');
+        Account newacc2 = new Account(Name='Acme Corp', AccountNumber='2', Sic='22');
+        Account newacc3 = new Account(Name='Acme Corp', AccountNumber='31', Sic='33');
+        Account newacc4 = new Account(Name='Acme Corp4', AccountNumber='4', Sic='44');
+    	
+        String[] checkForFields = new String[] {'Name','AccountNumber','Sic'};
+            
+    	old.add(SmartFactory.createSObject('Account'));
+    	old.add(SmartFactory.createSObject('Account'));
+    	System.assert(COM_Utils.isNotEmpty(COM_Utils.getChangedFields(old,newz,null)));
+    	System.assert(COM_Utils.isEmpty(COM_Utils.getChangedFields(old,old,null)));
+    	
+    	old = new List<SObject>();
+    	newz = new List<SObject>();
+    	old.add(SmartFactory.createSObject('Account'));
+    	newz.add(SmartFactory.createSObject('Contact'));
+    	System.assert(COM_Utils.isEmpty(COM_Utils.getChangedFields(old,newz,null)));
+    	
+    	old = new List<SObject>();
+    	newz = new List<SObject>();
+    	old.add(oldacc1);
+    	newz.add(newacc1);
+    	System.assert(COM_Utils.isNotEmpty(COM_Utils.getChangedFields(old,newz,checkForFields)));
+        
+        old.add(oldacc2);
+        old.add(oldacc3);
+        old.add(oldacc4);
+    	newz.add(newacc2);
+        newz.add(newacc3);
+        newz.add(newacc4);
+    	System.assert(COM_Utils.isNotEmpty(COM_Utils.getChangedFields(old,newz,checkForFields)));
+    }
+    
     
 }

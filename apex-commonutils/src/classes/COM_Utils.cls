@@ -6,6 +6,7 @@
 
 global class COM_Utils {
 	
+	private static final COM_Logger LOGGER = new COM_Logger('COM_Utils');
 	global static final String EMPTY = '';
 
 	/**
@@ -191,5 +192,129 @@ global class COM_Utils {
 		*/
 		return isSandbox;
 	}
+    
+    /**
+	 * @author 		Sukrut Wagh
+	 * @date		07/29/2015
+	 * @description Returns the url link for the object. Note that the url is not in HTML form.
+	 * @param obj	SObject
+	 * @return url string. Example: https://<domain>/50028000002YGFcAAO 
+	 */
+    public static String getObjUrl(final SObject so) {
+        al.StringBuffer sb = new al.StringBuffer();
+        if(isNotEmpty(so) && isNotEmpty(so.Id)) {
+			sb.append(URL.getSalesforceBaseUrl().toExternalForm() + '/' + so.Id);            
+        }
+        return sb.toStr();
+    }
+	
+	/**
+	* @author 		Sukrut Wagh
+	* @date			07/18/2015
+	* @description	Wrapper class for field changes in a record
+	*/
+	global class SObjectFieldChanges {
+		public SObject old {get;set;}
+		public SObject newz {get;set;}
+		public Set<String> changedFieldNames{get;set;}
+	    public SObjectFieldChanges(SObject old,SObject newz,Set<String> changedFieldNames) {
+	        this.old = old;
+	        this.newz = newz;
+	        this.changedFieldNames = changedFieldNames;
+	   }
+	}
+	
+	/**
+	* @description Compares two lists of same Schema.sObjectType and returns the fields with changed values
+	* @param old			First list for comparison
+	* @param newz			Second list for comparison
+	* @param checkFields	Fields to be checked for changes
+	* @return SObjectFieldChanges changed field details
+	*/
+	global static List<COM_Utils.SObjectFieldChanges> getChangedFields(final List<SObject> old, final List<SObject> newz, final List<String> checkFields) {
+		List<COM_Utils.SObjectFieldChanges> changes = new List<COM_Utils.SObjectFieldChanges>();
+		LOGGER.debug('old:'+old);
+        LOGGER.debug('newz:'+newz);
+        LOGGER.debug('checkFields:'+checkFields);
+        
+        if(COM_Utils.isEmpty(old) && COM_Utils.isEmpty(newz)) {
+        	return changes;
+        }
+        Schema.sObjectType soType = null;
+        SObject sObj = null;
+        if(COM_Utils.isNotEmpty(old)) {
+        	sObj = old[0];
+        }
+        if(COM_Utils.isNotEmpty(newz)) {
+        	sObj = newz[0];
+        }
+        //Note: list.getSObjectType() is buggy. Always returning null
+    	soType = sObj.getSObjectType();
+        LOGGER.debug('soType:'+soType);
+        Map<String, Schema.SObjectField> objectFields = 
+			Schema.getGlobalDescribe().get(getObjectName(soType)).getDescribe().fields.getMap();
+			
+	 	Set<String> objectFieldNames = objectFields.keySet();
+	 	LOGGER.debug('objectFieldNames:'+objectFieldNames);
+        
+        if(COM_Utils.isNotEmpty(checkFields)) {
+	        objectFieldNames = getValidFields(objectFieldNames,checkFields);
+    	    LOGGER.debug('ValidFields for comparison:'+objectFieldNames);
+        }
+        
+		if(COM_Utils.isNotEmpty(old) && COM_Utils.isNotEmpty(newz)
+		 && (old[0].getSObjectType() == newz[0].getSObjectType())
+		 && (old.size()==newz.size())) {
+		 	SObject oldSObj = null;
+		 	SObject newSObj = null;
+		 	Set<String> changedFieldNames = null; 
+		 	
+			for(Integer i=0; i<old.size(); i++ ) {
+				changedFieldNames = new Set<String>();
+				oldSObj = old[i];
+				newSObj = newz[i];
+				
+				if(COM_Utils.isNotEmpty(oldSObj) && COM_Utils.isNotEmpty(newSObj)) {
+					for(String fieldName : objectFieldNames) {
+						LOGGER.debug('Checking fieldName:'+fieldName);
+                        LOGGER.debug(oldSObj.get(fieldName)+' :diff: '+newSObj.get(fieldName));
+						if(oldSObj.get(fieldName)!=newSObj.get(fieldName)) {
+							changedFieldNames.add(fieldName);
+						}
+					}
+                    LOGGER.debug('changedFieldNames:'+changedFieldNames);
+					if(COM_Utils.isNotEmpty(changedFieldNames) && changedFieldNames.size() > 0) {
+						changes.add(new COM_Utils.SObjectFieldChanges(oldSObj,newSObj,changedFieldNames));
+					}
+				}
+				
+			}
+		} else if(COM_Utils.isEmpty(old)) {
+            for(SObject newSObj : newz) {
+                changes.add(new COM_Utils.SObjectFieldChanges(null,newSObj,objectFieldNames));
+            }
+        } else if(COM_Utils.isEmpty(newz)) {
+            for(SObject oldSObj : old) {
+                changes.add(new COM_Utils.SObjectFieldChanges(oldSObj,null,objectFieldNames));
+            }
+        } else {
+			LOGGER.warn('Could not identify the changes');
+		}
+		return changes;
+	}
+    
+    private static Set<String> getValidFields(final Set<String> validFields, final List<String> checkFields) {
+        Set<String> valid = new Set<String>();
+        if(COM_Utils.isNotEmpty(validFields) && validFields.size() > 0 && COM_Utils.isNotEmpty(checkFields)) {
+            LOGGER.debug('validFields:'+validFields);
+            for(String field: checkFields) {
+                LOGGER.debug('validFields.contains:'+field+validFields.contains(field.toLowerCase()));
+                if(validFields.contains(field.toLowerCase())) {
+                    valid.add(field);
+                }
+            }
+        }
+        return valid;
+    }
 	
 }
